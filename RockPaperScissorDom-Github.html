@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROCK-PAPER-SCISSOR-DOM</title>
+    <style>
+        body{
+            background-color: black;
+            color:white;
+            font-family:arial;
+        }
+        .js-rock,.js-paper,.js-scissor{
+            height:50px;
+            
+            
+            }
+            
+            .playermovebuttons{
+                border-radius:50%;
+                height: 150px;
+                width:150px;
+                background-color: black;
+                border:4px solid white;
+                margin-left: 10px;
+                cursor:pointer;
+            }
+            .playermovebuttons:hover{
+                background-color: lightslategray;
+            }
+
+            .js-results{
+                font-size: 30px;
+                font-weight: bold;
+                margin-top:50px;
+            }
+
+            .js-score{
+                margin-top:60px;
+            }
+
+            .resetbutton{
+               padding:10px 15px;
+                border:none;
+                font-size: 15px;
+            }
+
+            .directhomepage{
+                position: absolute;
+                bottom: 2%;
+                right: 5%;
+                color: white;
+
+            }
+
+    </style>
+</head>
+<body>
+    <p style="font-size: 25px; font-weight:bold;
+    "  >Rock Paper scissor</p>
+    <button class="playermovebuttons"  onclick="
+     playgame('rock')
+    "><img class="js-rock" src="rock-emoji.png"> </button>
+
+    <button class="playermovebuttons"   onclick="
+    playgame('paper')
+    "><img class="js-paper" src="paper-emoji.png"></button>
+    
+    <button class="playermovebuttons" onclick="
+    playgame('scissor')
+   "><img  class="js-scissor" src="scissor-emoji.png"></button>
+
+    <p class="js-results"></p>
+    <p class="js-moves">
+      
+    </p>
+    <p class="js-score" ></p>
+
+   <button class="resetbutton" onclick="
+   score.wins=0;
+   score.loses=0;
+   score.Tie=0;
+   alert('score reseted');
+   screenscore()
+   ">reset score</button>
+
+<a class="directhomepage" href="RPS-HomePage.html">Goto Home page &#127968;</a>
+    <script>
+        
+        //adding score to RPS using objects
+        let score=JSON.parse(localStorage.getItem('score')) || {
+            wins:0,
+            loses:0,
+            Tie:0
+        };
+
+      screenscore()
+
+        //creatin function for both comp and playermoves
+        function playgame(pMove)
+        {
+            let compMove= computerMove()
+
+    let result='';
+
+    if(pMove==='scissor')
+    {
+        if(compMove==='Rock')
+    {
+        result='you lose';
+    }
+
+    if(compMove==='Paper')
+    {
+        result='you win';
+    }
+
+    if(compMove==='scissor')
+    {
+        result='Tie';
+    }
+    }else if(pMove==='paper'){
+        if(compMove==='Rock')
+    {
+        result='you win';
+    }
+
+    if(compMove==='Paper')
+    {
+        result='Tie';
+    }
+
+    if(compMove==='scissor')
+    {
+        result='you lose';
+    }
+    }else if(pMove==='rock'){
+        if(compMove==='Rock')
+    {
+        result='Tie';
+    }
+
+    if(compMove==='Paper')
+    {
+        result='you lose';
+    }
+
+    if(compMove==='scissor')
+    {
+        result='you win';
+    }
+    }
+    if(result==='you win'){
+            score.wins++;
+        }else if(result==='you lose'){
+            score.loses++;
+        }else if(result==='Tie'){
+            score.Tie++;
+        }
+        
+        localStorage.setItem('score',JSON.stringify(score));
+
+        screenscore()
+
+        document.querySelector('.js-results')
+            .innerHTML=result;
+
+         document.querySelector('.js-moves')
+            .innerHTML=` you <img class="js-rock" src="${pMove}-emoji.png">
+        <img class="js-rock"  src="${compMove}-emoji.png">computer`; 
+
+           /* document.querySelector('.js-moves')
+            .innerHTML='you '+pMove+' - ' +compMove+ ' computer'; */
+
+   //alert('you picked ' +pMove+ ' Computer picked '+compMove+',' +result+'\n wins:'+score.wins+'  loses:'+score.loses+'  ties:'+score.tie);
+}
+
+
+        //creating fumction for computer move
+        function computerMove()
+        {
+            const randomNum=  Math.random()
+       let compMove='';
+        if (randomNum>=0 && randomNum<=1/3)
+        {
+            compMove='Rock';
+        }else if(randomNum>=1/3 && randomNum<2/3)
+        {
+            compMove='Paper';
+        }
+        if (randomNum>=2/3 && randomNum<1)
+        {
+            compMove='scissor';
+        } 
+       
+        return compMove;
+        
+    }
+
+    function screenscore(){
+        document.querySelector('.js-score')
+            .innerHTML=' wins:'+score.wins+'  loses:'+score.loses+'  Ties:'+score.Tie;
+    }
+    
+    </script>
+</body>
+</html>
